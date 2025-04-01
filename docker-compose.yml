@@ -1,0 +1,29 @@
+---
+name: cw-manager
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: rat
+      POSTGRES_PASSWORD: rat
+      POSTGRES_DB: vacancies
+    ports:
+      - 5434:5432
+    volumes:
+      - vw-back-volume:/var/lib/postgresql/data
+      - ./db_init.sql:/docker-entrypoint-initdb.d/init.sql
+    hostname: postgres
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080
+    depends_on:
+      - postgres
+    environment:
+      - ADMINER_DEFAULT_SERVER=postgres
+
+volumes:
+  vw-back-volume:
