@@ -1,5 +1,6 @@
 package coursework_manager.models;
 
+import coursework_manager.models.users.Teacher;
 import lombok.Data;
 
 import java.io.Serial;
@@ -10,7 +11,7 @@ public class CourseworkRecord implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     private final int id;
-    private  Teacher teacher;
+    private Teacher teacher;
     private final Coursework coursework;
     private final Group group;
 

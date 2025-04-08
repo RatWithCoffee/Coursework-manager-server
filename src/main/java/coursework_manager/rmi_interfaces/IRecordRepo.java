@@ -16,4 +16,9 @@ public interface IRecordRepo extends Remote {
     List<CourseworkRecord> getAllByGroup(int groupId) throws RemoteException;
 
     void remove(int cwId) throws RemoteException;
+
+    List<CourseworkRecord> getAllByGroupAndTeacher(int groupId, int teacherId) throws RemoteException;
+
+    CourseworkRecord getById(int id) throws RemoteException;
+
 }

@@ -6,10 +6,20 @@ DROP TABLE IF EXISTS teacher;
 DROP TABLE IF EXISTS coursework;
 DROP TABLE IF EXISTS "group";
 
+CREATE TYPE user_role AS ENUM ('admin', 'teacher');
+
+
+CREATE TABLE "user"
+(
+    id       SERIAL PRIMARY KEY,
+    login    VARCHAR(128) NOT NULL UNIQUE,
+    password VARCHAR(128) NOT NULL,
+    "role"   user_role    NOT NULL
+);
 -- Создание таблицы teacher
 CREATE TABLE teacher
 (
-    id   SERIAL PRIMARY KEY,
+    id INT PRIMARY KEY REFERENCES "user" (id) ON DELETE CASCADE,
     name VARCHAR(255) NOT NULL,
     job_title VARCHAR(512) NOT NULL
 );
@@ -54,12 +64,23 @@ CREATE TABLE mark
     cw_id      INT REFERENCES coursework(id) ON DELETE CASCADE
 );
 
+
+
+INSERT INTO "user" (id, login, password, role)
+VALUES (1, 'admin', 'admin123', 'admin'),
+       (2, 'teacher1', 'teacher123', 'teacher'),
+       (3, 'teacher2', 'teacher123', 'teacher'),
+       (4, 'teacher3', 'teacher123', 'teacher'),
+       (5, 'teacher4', 'teacher123', 'teacher');
+
+ALTER SEQUENCE user_id_seq RESTART WITH 6;
+
 -- Вставка данных в таблицу teacher
-INSERT INTO teacher (name, job_title)
-VALUES ('Иванов Иван Иванович', 'Преподаватель математики'),
-       ('Петрова Мария Сергеевна', 'Старший преподаватель'),
-       ('Сидоров Алексей Владимирович', 'Доцент'),
-       ('Кузнецова Ольга Дмитриевна', 'Профессор');
+INSERT INTO teacher (name, job_title, id)
+VALUES ('Иванов Иван Иванович', 'Преподаватель математики', 2),
+       ('Петрова Мария Сергеевна', 'Старший преподаватель', 3),
+       ('Сидоров Алексей Владимирович', 'Доцент', 4),
+       ('Кузнецова Ольга Дмитриевна', 'Профессор', 5);
 
 -- Вставка данных в таблицу coursework
 INSERT INTO coursework (name)
@@ -112,10 +133,11 @@ VALUES
 
 -- Вставка данных в таблицу coursework_record
 INSERT INTO coursework_record (cw_id, teacher_id, group_id)
-VALUES (1, 1, 1),  -- Курсовая 1, Преподаватель 1, Группа 1
-       (2, 2, 2),  -- Курсовая 2, Преподаватель 2, Группа 2
-       (3, 3, 3),  -- Курсовая 3, Преподаватель 3, Группа 3
-       (4, 4, 4);  -- Курсовая 4, Преподаватель 4, Группа 4
+VALUES (1, 2, 1), -- Курсовая 1, Преподаватель 1, Группа 1
+       (2, 3, 2), -- Курсовая 2, Преподаватель 2, Группа 2
+       (3, 4, 3), -- Курсовая 3, Преподаватель 3, Группа 3
+       (4, 5, 4);
+-- Курсовая 4, Преподаватель 4, Группа 4
 
 -- Вставка данных в таблицу mark
 INSERT INTO mark (student_id, mark, cw_id)
@@ -151,3 +173,5 @@ VALUES
     (22, 5, 4), -- Студент 22, Оценка 5, Курсовая 4
     (23, 4, 4), -- Студент 23, Оценка 4, Курсовая 4
     (24, 5, 4); -- Студент 24, Оценка 5, Курсовая 4
+
+

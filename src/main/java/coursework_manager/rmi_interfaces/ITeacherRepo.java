@@ -1,6 +1,6 @@
 package coursework_manager.rmi_interfaces;
 
-import coursework_manager.models.Teacher;
+import coursework_manager.models.users.Teacher;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

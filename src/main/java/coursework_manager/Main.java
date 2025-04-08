@@ -1,9 +1,7 @@
 package coursework_manager;
 
-import coursework_manager.repos.GroupRepo;
-import coursework_manager.repos.MarkRepo;
-import coursework_manager.repos.RecordRepo;
-import coursework_manager.repos.TeacherRepo;
+import coursework_manager.http_server.HttpServerCw;
+import coursework_manager.repos.*;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -15,6 +13,7 @@ public class Main {
             MarkRepo markRepo = new MarkRepo();
             RecordRepo recordRepo = new RecordRepo();
             TeacherRepo teacherRepo = new TeacherRepo();
+            LoginRepo loginRepo = new LoginRepo();
             System.out.println("sdf");
 
             Registry registry = LocateRegistry.createRegistry(1099);
@@ -23,6 +22,9 @@ public class Main {
             registry.bind("MarkRepo", markRepo);
             registry.bind("RecordRepo", recordRepo);
             registry.bind("TeacherRepo", teacherRepo);
+            registry.bind("LoginRepo", loginRepo);
+
+            HttpServerCw.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
