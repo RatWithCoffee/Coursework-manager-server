@@ -19,7 +19,7 @@ public class GroupRepo extends UnicastRemoteObject implements coursework_manager
     }
 
     // Метод для получения всех групп
-    public List<Group> getAllGroups() {
+    public List<Group> getAllGroups()  throws RemoteException {
         List<Group> groups = new ArrayList<>();
         String query = "SELECT * FROM \"group\"";
 

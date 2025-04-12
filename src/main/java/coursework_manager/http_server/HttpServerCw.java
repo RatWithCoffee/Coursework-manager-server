@@ -1,15 +1,14 @@
 package coursework_manager.http_server;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpServer;
+import coursework_manager.http_server.dto.CourseworkDTO;
+import coursework_manager.http_server.dto.CourseworkRecordDto;
 import coursework_manager.repos.RecordRepo;
-import lombok.Data;
 
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 public class HttpServerCw {
     public static void start() throws IOException {
@@ -28,7 +27,7 @@ public class HttpServerCw {
 
                     // Парсинг JSON
                     ObjectMapper mapper = new ObjectMapper();
-                    CourseworkRecord request = mapper.readValue(requestBody.toString(), CourseworkRecord.class);
+                    CourseworkRecordDto request = mapper.readValue(requestBody.toString(), CourseworkRecordDto.class);
 
                     // Обработка данных (здесь можно добавить сохранение в БД)
                     System.out.println("Received request for group: " + request.getGroupId());
@@ -44,7 +43,7 @@ public class HttpServerCw {
 
                     try {
                         // Создаем ответ с обновленными данными
-                        CourseworkRecord responseRecord = new CourseworkRecord();
+                        CourseworkRecordDto responseRecord = new CourseworkRecordDto();
                         responseRecord.setCourseworks(request.getCourseworks());
                         responseRecord.setGroupId(request.getGroupId());
                         responseRecord.setTeacherId(request.getTeacherId());
@@ -82,23 +81,4 @@ public class HttpServerCw {
         System.out.println("Server started on port 8080");
     }
 
-    @Data
-    public static class CourseworkRecord {
-        private List<CourseworkDTO> courseworks;
-
-
-        @JsonProperty("group_id")
-        private int groupId;
-
-        @JsonProperty("teacher_id")
-        private int teacherId;
-
-    }
-
-    @Data
-    public static class CourseworkDTO {
-        private int id;
-        private String title;
-
-    }
 }
