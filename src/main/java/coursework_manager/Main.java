@@ -14,7 +14,6 @@ public class Main {
             RecordRepo recordRepo = new RecordRepo();
             TeacherRepo teacherRepo = new TeacherRepo();
             LoginRepo loginRepo = new LoginRepo();
-            System.out.println("sdf");
 
             Registry registry = LocateRegistry.createRegistry(1099);
 
@@ -25,6 +24,7 @@ public class Main {
             registry.bind("LoginRepo", loginRepo);
 
             HttpServerCw.start();
+            System.out.println("server started");
         } catch (Exception e) {
             e.printStackTrace();
         }
